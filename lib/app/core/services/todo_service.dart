@@ -9,10 +9,7 @@ class TodoService {
   Future<List<TodoModel>> getTodos() async {
     try {
       final response = await _dio.get('https://jsonplaceholder.typicode.com/todos/');
-
-      final data = (response.data as List).map((e) => TodoModel.fromMap(e)).toList();
-
-      return data;
+      return TodoModel.fromJsonList(response.data);
     } catch (e) {
       rethrow;
     }

@@ -22,6 +22,7 @@ dependencies:
   freezed_annotation: ^1.1.0
   build_runner: ^2.1.8
   dio: ^4.0.6
+  json_annotation: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,8 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   mobx_codegen: ^2.0.5+2
   modular_test: ^1.0.1+2
+  json_serializable: ^6.1.5
+
 
 flutter:
   uses-material-design: true

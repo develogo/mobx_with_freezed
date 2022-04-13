@@ -1,9 +1,16 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'todo_model.g.dart';
+
+@JsonSerializable()
 class TodoModel {
+  @JsonKey(name: 'userId')
   final int userId;
+  @JsonKey(name: 'id')
   final int id;
+  @JsonKey(name: 'title')
   final String title;
+  @JsonKey(name: 'completed')
   final bool completed;
   TodoModel({
     required this.userId,
@@ -12,56 +19,9 @@ class TodoModel {
     required this.completed,
   });
 
-  TodoModel copyWith({
-    int? userId,
-    int? id,
-    String? title,
-    bool? completed,
-  }) {
-    return TodoModel(
-      userId: userId ?? this.userId,
-      id: id ?? this.id,
-      title: title ?? this.title,
-      completed: completed ?? this.completed,
-    );
-  }
+  factory TodoModel.fromJson(Map<String, dynamic> json) => _$TodoModelFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return {
-      'userId': userId,
-      'id': id,
-      'title': title,
-      'completed': completed,
-    };
-  }
+  static List<TodoModel> fromJsonList(List<dynamic> list) => list.map((e) => TodoModel.fromJson(e)).toList();
 
-  factory TodoModel.fromMap(Map<String, dynamic> map) {
-    return TodoModel(
-      userId: map['userId']?.toInt() ?? 0,
-      id: map['id']?.toInt() ?? 0,
-      title: map['title'] ?? '',
-      completed: map['completed'] ?? false,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory TodoModel.fromJson(String source) => TodoModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'TodoModel(userId: $userId, id: $id, title: $title, completed: $completed)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TodoModel && other.userId == userId && other.id == id && other.title == title && other.completed == completed;
-  }
-
-  @override
-  int get hashCode {
-    return userId.hashCode ^ id.hashCode ^ title.hashCode ^ completed.hashCode;
-  }
+  Map<String, dynamic> toJson() => _$TodoModelToJson(this);
 }

@@ -20,7 +20,7 @@ abstract class HomeStoreBase with Store {
     _todoService.getTodos().then((value) {
       state = HomeState.data(value);
     }).catchError((error) {
-      state = HomeState.error(error.toString());
+      state = const HomeState.error('Erro to fetch data');
     });
   }
 }

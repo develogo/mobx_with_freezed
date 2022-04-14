@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobxfreezed/app/core/models/todo_model.dart';
+import 'package:mobxfreezed/app/core/widgets/cicular_progress_widget.dart';
+import 'package:mobxfreezed/app/core/widgets/error_widget.dart';
 import 'package:mobxfreezed/app/modules/home/home_store.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,24 +36,16 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
     );
   }
 
-  Widget buildError(String? message) {
-    return Center(
-      child: Text(message ?? 'Generic Error', style: const TextStyle(color: Colors.red)),
-    );
-  }
-
-  Widget buildLoad() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
+          IconButton(
+            onPressed: () => Modular.to.pushNamed('/photos'),
+            icon: const Icon(Icons.photo),
+          ),
           IconButton(
             onPressed: store.fetchData,
             icon: const Icon(Icons.refresh),
@@ -63,8 +57,8 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
           return store.state.when(
             initial: () => const SizedBox.shrink(),
             data: (v) => buildData(v),
-            loading: () => buildLoad(),
-            error: (v) => buildError(v),
+            loading: () => const CircularProgressWidget(),
+            error: (v) => ErrorMessageWidget(error: v),
           );
         },
       ),

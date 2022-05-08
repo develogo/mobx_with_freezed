@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobxfreezed/app/core/services/todo_service.dart';
 import 'package:mobxfreezed/app/modules/home/home_state.dart';
@@ -19,6 +20,8 @@ abstract class HomeStoreBase with Store {
     state = const HomeState.loading();
     _todoService.getTodos().then((value) {
       state = HomeState.data(value);
+    }).onError<DioError>((error, stackTrace) {
+      state = HomeState.error(error.message);
     }).catchError((error) {
       state = const HomeState.error('Erro to fetch data');
     });

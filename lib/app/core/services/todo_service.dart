@@ -1,17 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:mobxfreezed/app/core/models/todo_model.dart';
+import 'package:retrofit/retrofit.dart';
 
-class TodoService {
-  final Dio _dio;
+part 'todo_service.g.dart';
 
-  TodoService(this._dio);
+@RestApi()
+abstract class TodoService {
+  factory TodoService(Dio dio) = _TodoService;
 
-  Future<List<TodoModel>> getTodos() async {
-    try {
-      final response = await _dio.get('https://jsonplaceholder.typicode.com/todos/');
-      return TodoModel.fromJsonList(response.data);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  @GET("/todos/")
+  Future<List<TodoModel>> getTodos();
 }
